@@ -14,7 +14,7 @@ const server = http.createServer(app);
 // change the cors origin to the domain or url of the client.
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
     methods: ["GET", "POST"],
   },
 });
@@ -41,14 +41,12 @@ io.on("connection", (socket) => {
     game.resetPlayerState();
     game.resetTimer();
     //cheking if all players have had their turn and all rounds have finished.
-    if (
-      game.getRemainingPlayers().length === 0 && game.checkLastRound()
-    ) {
+    if (game.getRemainingPlayers().length === 0 && game.checkLastRound()) {
       io.sockets.emit("game_over", game.getPlayers());
       game.reset();
-      timer = setTimeout(()=>{
+      timer = setTimeout(() => {
         game.isStarted = true;
-        startNextTurn()
+        startNextTurn();
       }, 10000);
     }
     // if not then start the next turn after 3 seconds to display scores after the turn.
@@ -98,13 +96,13 @@ io.on("connection", (socket) => {
   socket.on("send_message", (data) => {
     //checking if user has guessed correctly. if yes, sending a message to other players that the user has guessed.
     if (data.message.toLowerCase() === game.currentWord.toLowerCase()) {
-      const guessedUser = game.getPlayers().find(
-        (player) => player.id === socket.id
-      );
+      const guessedUser = game
+        .getPlayers()
+        .find((player) => player.id === socket.id);
       // finding players who have not guessed yet.
-      const noGuessPlayers = game.getPlayers().filter(
-        (player) => !player.hasGuessed
-      );
+      const noGuessPlayers = game
+        .getPlayers()
+        .filter((player) => !player.hasGuessed);
       // if the player has not guessed before, then giving him points and changing his state.
       if (!guessedUser.hasGuessed) {
         guessedUser.score += noGuessPlayers.length * 10 + 10;
@@ -122,7 +120,7 @@ io.on("connection", (socket) => {
       if (game.hasEveryoneGuessed()) {
         endTurn();
       }
-    } 
+    }
     // if the user has not guessed correctly, then just broadcast the message to other players.
     else {
       socket.broadcast.emit("receive_message", data);
@@ -148,8 +146,8 @@ io.on("connection", (socket) => {
   socket.on("join_game", (data) => {
     const { username, avatar } = data;
     // creating a new instace of the player object and pushing it into the game object
-    if(game.playersList.find(p=>p.id == socket.id)){
-      return
+    if (game.playersList.find((p) => p.id == socket.id)) {
+      return;
     }
     const newPlayer = new Player(socket.id, username, avatar);
     game.addPlayer(newPlayer);
@@ -179,7 +177,7 @@ io.on("connection", (socket) => {
     socket.emit("receive_words", threeWords);
   });
   // chooser sending back his choice from the three words.
-  socket.on("send_choice", ({choice, screenWidth, screenHeight}) => {
+  socket.on("send_choice", ({ choice, screenWidth, screenHeight }) => {
     // assigning drawing role to the chooser and taking back his choosing role.
     const drawer = game.getPlayers().find((player) => player.id === socket.id);
     drawer.isDrawing = true;
@@ -211,10 +209,12 @@ io.on("connection", (socket) => {
     // printing out which socket has disconnected.
     console.log(`a user has disconnected: ${socket.id}`);
     // finding the player who has disconnected using their id (which is also the socket id).
-    const disconnectedPlayerObj = game.getPlayers().find(
-      (player) => player.id === socket.id
-    );
-    const disconnectedPlayer = disconnectedPlayerObj ? disconnectedPlayerObj.username : null;
+    const disconnectedPlayerObj = game
+      .getPlayers()
+      .find((player) => player.id === socket.id);
+    const disconnectedPlayer = disconnectedPlayerObj
+      ? disconnectedPlayerObj.username
+      : null;
     // if the disconnected player is in the player list tell everyone else that he has left.
     if (disconnectedPlayer) {
       socket.broadcast.emit("receive_message", {
@@ -237,6 +237,6 @@ io.on("connection", (socket) => {
 
 /* broadcasting the server api on the network (using the broadcast api i.e, 0.0.0.0) and port 3001
  for players to access and join the game */
-server.listen(3001, "0.0.0.0", () => {
+server.listen(process.env.PORT || 3001, "0.0.0.0", () => {
   console.log(`Listening at port ${process.env.PORT || "3001"}`);
 });
