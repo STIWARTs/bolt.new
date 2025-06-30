@@ -1,5 +1,4 @@
 import { createContext, useState } from "react";
-
 import { io } from "socket.io-client";
 
 const socket = io.connect(
@@ -40,6 +39,7 @@ export const GameContext = createContext({
   reset: () => {},
 });
 
+// eslint-disable-next-line react/prop-types
 export const GameContextProvider = ({ children }) => {
   const [username, setUsername] = useState("");
   const [messagesArray, setMessagesArray] = useState([]);

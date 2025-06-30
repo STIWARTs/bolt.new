@@ -18,6 +18,7 @@ export const CanvasContext = createContext({
   setPrevCoordinates: () => {},
 });
 
+// eslint-disable-next-line react/prop-types
 export const CanvasContextProvider = ({ children }) => {
   const [currentColor, setCurrentColor] = useState("#000000");
   const [brushSize, setBrushSize] = useState(5);
