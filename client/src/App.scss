@@ -19,7 +19,27 @@
       radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.2) 0%, transparent 50%);
     animation: floatPattern 20s ease-in-out infinite;
     pointer-events: none;
+    z-index: 1;
   }
+}
+
+/* Background animation layer */
+.background-animations {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Main content layer */
+.main-content {
+  position: relative;
+  z-index: 10;
+  height: 100%;
+  width: 100%;
 }
 
 @keyframes gradientShift {
@@ -74,11 +94,11 @@
 
 @keyframes pulse {
   0%, 100% {
-    opacity: 0.3;
+    opacity: 0.2;
     transform: scale(1);
   }
   50% {
-    opacity: 0.7;
+    opacity: 0.4;
     transform: scale(1.1);
   }
 }
@@ -95,7 +115,8 @@
 .floating-element {
   position: absolute;
   pointer-events: none;
-  opacity: 0.4;
+  opacity: 0.3;
+  z-index: 1;
 }
 
 .pencil-1 {
@@ -161,9 +182,10 @@
 .floating-bubble {
   position: absolute;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(10px);
   animation: drift 25s linear infinite;
+  z-index: 1;
 }
 
 .bubble-1 {
@@ -202,6 +224,7 @@
   position: absolute;
   border-radius: 50%;
   animation: float 8s ease-in-out infinite;
+  z-index: 1;
 }
 
 .orb-1 {
@@ -211,6 +234,7 @@
   height: 20px;
   background: radial-gradient(circle, #FF6B6B, #FF4757);
   animation-delay: 1s;
+  opacity: 0.4;
 }
 
 .orb-2 {
@@ -220,6 +244,7 @@
   height: 15px;
   background: radial-gradient(circle, #4ECDC4, #00CEC9);
   animation-delay: 3s;
+  opacity: 0.4;
 }
 
 .orb-3 {
@@ -229,4 +254,5 @@
   height: 25px;
   background: radial-gradient(circle, #FFE66D, #FDCB6E);
   animation-delay: 2s;
+  opacity: 0.4;
 }
