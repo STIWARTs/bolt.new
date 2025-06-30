@@ -1,7 +1,6 @@
-# Skribbl Clone – MERN Stack Drawing & Guessing Game
+# Dash & Draw – Built for the Bolt Hackathon
 
 A real-time, multiplayer drawing and guessing game inspired by Skribbl.io. Built with the MERN stack (MongoDB, Express.js, React.js, Node.js) and Socket.IO for real-time communication.
-
 ---
 
 ## 🏗️ Complete Folder Structure
