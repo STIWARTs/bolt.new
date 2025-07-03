@@ -74,6 +74,22 @@ skribbl-clone-main/
 ```
 
 ---
+## 📱 Application Preview
+
+<div align="center">
+  <table>
+    <tr>
+      <td><strong>Home Page</strong></td>
+      <td><strong>Product Collections</strong></td>
+      <td><strong>AI Assistant</strong></td>
+    </tr>
+    <tr>
+      <td><img src="/client/public/assets/home.png" alt="img" width="250"/></td>
+      <td><img src="/client/public/assets/draw2.png" alt="img" width="250"/></td>
+      <td><img src="/client/public/assets/draw.png" alt="img" width="250"/></td>
+    </tr>
+  </table>
+</div>
 
 ## ⚙️ How the Game Works
 
